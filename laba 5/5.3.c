@@ -5,15 +5,15 @@
 #include <windows.h>
 
 void ClearScreen();
-int count(float *A,int n,float k);
-void sort(float *A,int N);
-void print_mass(float *A,int n);
-void scan_mass(float *A,int n);
+int count(int *A,int n,int k);
+void sort(int *A,int N,int k);
+void print_mass(int *A,int n);
+void scan_mass(int *A,int n);
 
 int main() {
 	setlocale(LC_ALL,"rus");
 	int i,n ,num,menu,hz,flag = 0,flag2 =0;
-	float k;
+	int k;
 	for(;;){
 	
 		printf("1)Создать масив\n");
@@ -33,28 +33,32 @@ int main() {
 				printf("Введите размер масива:");
 				scanf("%d",&n);
 				hz = n;
-				float *A = (float*) malloc(n*sizeof(float));
+				int *A = (int*) malloc(hz*sizeof(int));
 				scan_mass(A,n);	
 				flag2 = 1;
 				break;
 	
 			case 2:
 			if (flag2 == 0){
-				printf("Может ти сначала масив создаси, не протаке не задумувався?\n ");
+				printf("Может ти сначала масив создаси, не протаке не задумувався?\n");
 				break;
 			}
 				printf("Введите число ктороє хотите удалить :");
-				scanf("%f",&k);				
+				scanf("%d",&k);				
 				num = count(A,hz,k);
-				sort(A,n);
+				sort(A,n,k);
 				hz -=num;
-				float *B = (float*) malloc((hz)*sizeof(float));
+				int *B = (int*) malloc((hz)*sizeof(int));
 				for(i = 0;i <hz;i++){
 					B[i]=A[i];
 				}
 				flag = 1;
 			break;
 			case 3:
+			if (flag2 == 0){
+				printf("Может ти сначала масив создаси, не протаке не задумувався?\n");
+				break;
+			}
 				flag2= 0;
 				free(A);
 				break;
@@ -80,6 +84,9 @@ int main() {
 				ClearScreen();
 				break;
 			case 6:
+				print_mass(A,n);
+				print_mass(B,n);
+				free(A);
 				printf("Пока пользовотель ; ) \n\n");
 				system("pause");
 				return 0;
@@ -90,42 +97,40 @@ int main() {
 		}
 	}
 }
-void sort(float *A,int N){
+void sort(int  *A,int N,int  k){
 	int i,j;
-	float k = 0.1;
 	for(i = 0;i<N-1;i++){
 		for(j = 0;j < N-1-i;j++){
 			if(A[j] == k ){
-				float tmp =A[j];
+				int tmp =A[j];
 				A[j] = A[j+1];
 				A[j+1] = tmp;
 			}
+			
 		}
 	}
 }
 
-void scan_mass(float *A,int n){
+void scan_mass(int *A,int n){
 	int i;
 	for(i =0;i <n;i++){
 		printf("a[%d]",i);
-		scanf("%f",&A[i]);
+		scanf("%d",&A[i]);
 	}
 }
-void print_mass(float *A,int n){
+void print_mass(int  *A,int n){
 	int i;
 	for(i =0;i <n;i++){
-		printf("%.0f ",A[i]);
+		printf("%.d ",A[i]);
 		
 	}
 	printf("\n");
 }
 
-int count(float *A,int n,float k){
+int count(int *A,int n,int k){
 	int i,count  = 0;
-	float l = 0.1;
 	for(i =0;i < n;i++){
 		if (A[i]== k){
-		A[i] = l;
 		count ++;
 		} 
 	}
